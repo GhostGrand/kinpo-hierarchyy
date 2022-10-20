@@ -124,7 +124,36 @@ void closeInputDatas(QFile& inputXml, QFile& inputTxt)
 
 void getAllContentFromXml(QFile& inputXml, department &rootDepartment)
 {
+    if (!inputXml.open(QIODevice::ReadOnly))    // Проверяем, возможно ли открыть .xml файл для чтения
+        qDebug() << "Error: can't read .xml file";  // Вывести в консоль ошибку, что файл открыть невозможно
 
+    QByteArray buff = inputXml.readAll();
+    QDomDocument doc;
+
+    // Проверить, что .xml файл не пустой
+    if (doc.setContent(buff) == false)
+        qDebug() << "bad XML-file: setContent";
+    // Проверить, что на самом верхнем уровне находится подразделение
+    QDomElement root = doc.documentElement();
+    if (root.tagName() != "Department")
+        qDebug() << "bad XML-file: tagname() != Department";
+
+    // Первая вложенная нода
+    QDomNode record_node = root.firstChild();
+
+    // Список подчиненных сотрудников
+    QList<employee> childEmployees;
+
+    // Список подчиненных подразделений
+    QList<department> childDepartments;
+
+    rootDepartment.idHead = QString::fromStdString(record_node.attributes().namedItem("head").nodeValue().toStdString()).toInt();
+    rootDepartment.departmentName = QString::fromStdString(record_node.attributes().namedItem("name").nodeValue().toStdString());
+
+    getInputXmlDatasToStructs(record_node, root, childEmployees, childDepartments);
+
+    rootDepartment.childDepartments = childDepartments;
+    rootDepartment.employeesOfDepartment = childEmployees;
 }
 
 void getInputXmlDatasToStructs(QDomNode record_node, QDomNode root, QList<struct employee> &employeeList, QList<struct department> &departmentList)
