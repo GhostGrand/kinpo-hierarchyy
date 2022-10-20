@@ -227,7 +227,19 @@ void getOutputStrings(int rootEmployeeId, department &rootDepartment, QList<QStr
 
 void getDepartmentsStrings(int rootEmployeeId, department &rootDepartment, QList<QString> &outputStrings)
 {
+    outputStrings.append(rootDepartment.departmentName + ":");
+    for (int i = 0; i < rootDepartment.employeesOfDepartment.count(); i++)
+    {
+        if (rootDepartment.employeesOfDepartment[i].idEmployee != rootEmployeeId)
+        {
+            outputStrings.append("    " + rootDepartment.employeesOfDepartment[i].fioEmployee);
+        }
+    }
 
+    for (int i = 0; i < rootDepartment.childDepartments.count(); i++)
+    {
+        getDepartmentsStrings(rootEmployeeId, rootDepartment.childDepartments[i], outputStrings);
+    }
 }
 
 void writeOutputFile(QString filePath, QList<QString> &outputStrings)
