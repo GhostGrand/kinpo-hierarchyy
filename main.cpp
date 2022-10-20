@@ -7,6 +7,37 @@
 int main(int argc, char *argv[])
 {
     QTest::qExec(new tests, argc, argv);
+    return 0;
+
+    QCoreApplication a(argc, argv);
+
+    // Объявление входного .xml файла
+    QString locationXml = QDir::currentPath() + "..\\..\\kinpo-hierarchy\\input.xml";  // расположение входного .xml файла
+    QFile inputXml(locationXml);
+
+    // Объявление входного .txt файла
+    QString locationTxt = QDir::currentPath() + "..\\..\\kinpo-hierarchy\\input2.txt";  // расположение входного .txt файла
+    QFile inputTxt(locationTxt);
+
+    // Объявление выходного .txt файла
+    QString locationOutput = QDir::currentPath() + "..\\..\\kinpo-hierarchy\\output.txt";  // расположение входного .txt файла
+    QFile outputTxt(locationOutput);
+
+    department rootDepartment;
+
+    // выполнение проверки входных данных
+    try {
+        testInputDatas(locationXml, inputXml, locationTxt, inputTxt);
+
+
+    }  catch (int error) {
+        outputError(error);
+        closeInputDatas(inputXml, inputTxt);
+        return 0;
+    }
+
+    qDebug() << "work, no input errors";
+
 }
 
 bool testInputDatas(QString& locationXml, QFile& inputXml, QString& locationTxt, QFile& inputTxt)
@@ -40,7 +71,7 @@ bool testInputDatas(QString& locationXml, QFile& inputXml, QString& locationTxt,
         throw 4;
     }
 
-    inputXml.close();   // закрыть .xml файл
+    inputXml.close();   // Закрыть .xml файл
 }
 
 void outputError(int error)
