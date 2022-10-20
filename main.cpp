@@ -317,5 +317,26 @@ void getDepartmentsStrings(int rootEmployeeId, department &rootDepartment, QList
 
 void writeOutputFile(QString filePath, QList<QString> &outputStrings)
 {
+    // Расположение файла
+    QFile file(filePath);
 
+        // Если можно записывать данные в файл
+    if (file.open(QIODevice::WriteOnly))
+    {
+        // Записать строки в файл
+        QTextStream stream(&file);
+
+        for (int i = 0; i < outputStrings.count(); i++)
+        {
+            stream << outputStrings[i] << "\n";
+        }
+
+        // Закрыть файл
+        file.close();
+    }
+    // Вывести в консоль ошибку, что файл открыть невозможно
+    else
+    {
+        qDebug() << "bad XML-file: cannot open output file";
+    }
 }
