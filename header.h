@@ -75,8 +75,9 @@ void getInputXmlDatasToStructs(QDomNode record_node, QDomNode root, QList<struct
  *
  * @param[in] inputXml          входной .xml файл
  * @param[in] rootDepartment    самое вышестоящее подразделение
+ * @return                      true - .xml файл корректный, false -.xml файл некорректный
  */
-void getAllContentFromXml(QFile& inputXml, department &rootDepartment);
+bool getAllContentFromXml(QFile& inputXml, department &rootDepartment);
 
 /*!
  * Получение ФИО сотрудника по его ID

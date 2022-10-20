@@ -1,9 +1,13 @@
 #include <QCoreApplication>
-
-#include <QtTest/QTest>
+#include <QXmlStreamWriter>
+#include <QXmlStreamReader>
+#include <QFile>
+#include <QString>
+#include <QDomDocument>
+#include <QDir>
 #include "header.h"
+#include <QtTest/QTest>
 #include "tests.h"
-
 int main(int argc, char *argv[])
 {
     QTest::qExec(new tests, argc, argv);
@@ -12,15 +16,15 @@ int main(int argc, char *argv[])
     QCoreApplication a(argc, argv);
 
     // Объявление входного .xml файла
-    QString locationXml = QDir::currentPath() + "..\\..\\kinpo-hierarchy\\input.xml";  // расположение входного .xml файла
+    QString locationXml = QDir::currentPath() + "..\\..\\kinpo-hierarchyy\\input.xml";  // Расположение входного .xml файла
     QFile inputXml(locationXml);
 
     // Объявление входного .txt файла
-    QString locationTxt = QDir::currentPath() + "..\\..\\kinpo-hierarchy\\input2.txt";  // расположение входного .txt файла
+    QString locationTxt = QDir::currentPath() + "..\\..\\kinpo-hierarchyy\\input2.txt";  // Расположение входного .txt файла
     QFile inputTxt(locationTxt);
 
     // Объявление выходного .txt файла
-    QString locationOutput = QDir::currentPath() + "..\\..\\kinpo-hierarchy\\output.txt";  // расположение входного .txt файла
+    QString locationOutput = QDir::currentPath() + "..\\..\\kinpo-hierarchyy\\output.txt";  // Расположение входного .txt файла
     QFile outputTxt(locationOutput);
 
     department rootDepartment;
@@ -127,7 +131,7 @@ int getInputID(QFile& inputTxt)
     // Проверить корректность входных данных
     for (int i = 0; i < idDatas.length(); i++)
     {
-        if (!idDatas[i].isDigit())  // Если символ не число
+        if (!idDatas[i].isDigit() || idDatas[i] == '0')  // Если символ не число
         {
             qDebug() << "incorrect ID";
             return 0;   // Вернуть 0 и вывести ошибку
@@ -144,7 +148,7 @@ void closeInputDatas(QFile& inputXml, QFile& inputTxt)
     inputTxt.close();
 }
 
-void getAllContentFromXml(QFile& inputXml, department &rootDepartment)
+bool getAllContentFromXml(QFile& inputXml, department &rootDepartment)
 {
     if (!inputXml.open(QIODevice::ReadOnly))    // Проверяем, возможно ли открыть .xml файл для чтения
         qDebug() << "Error: can't read .xml file";  // Вывести в консоль ошибку, что файл открыть невозможно
@@ -154,12 +158,17 @@ void getAllContentFromXml(QFile& inputXml, department &rootDepartment)
 
     // Проверить, что .xml файл не пустой
     if (doc.setContent(buff) == false)
+    {
+        return 0;
         qDebug() << "bad XML-file: setContent";
+    }
     // Проверить, что на самом верхнем уровне находится подразделение
     QDomElement root = doc.documentElement();
     if (root.tagName() != "Department")
+    {
+        return 0;
         qDebug() << "bad XML-file: tagname() != Department";
-
+    }
     // Первая вложенная нода
     QDomNode record_node = root.firstChild();
 
