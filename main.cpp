@@ -48,6 +48,10 @@ int main(int argc, char *argv[])
     // Запарсить .xml файл
     getAllContentFromXml(inputXml, rootDepartment);
 
+    // Получить подразделения, подчиняющиеся данному сотруднику
+    QList<QString> outputStrings;
+    getOutputStrings(rootEmployeeId, rootDepartment, outputStrings);
+
 }
 
 bool testInputDatas(QString& locationXml, QFile& inputXml, QString& locationTxt, QFile& inputTxt)
