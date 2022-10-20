@@ -1,0 +1,29 @@
+<Employee id="124124">Кто-кто</Employee>
+<Department name="ООО TechLab" head="1111">
+
+    <Employee id="1111">Директор</Employee>
+    
+    <Department name="ТП" head="1">
+        <Employee id="1">Александров А. Г.</Employee>
+        <Employee id="2">Гончаров Л. Г.</Employee>
+        <Employee id="3">Понасенков Г. В.</Employee>
+
+        <Department name="Группа тестировщиков" head="8">
+            <Employee id="8">Григорьев С. М.</Employee>
+            <Employee id="9">Павлова А. А.</Employee>
+            <Employee id="10">Григорьева. В. В.</Employee>
+        </Department>
+
+    </Department>
+    
+    <Department name="Разработка" head="5">
+        <Employee id="4">Буров П. Г.</Employee>
+        <Employee id="5">Исаков В. В.</Employee>
+        <Employee id="6">Шарапов Е. П.</Employee>
+    </Department>
+    
+    <Department name="Бухгалтерия" head="7">
+        <Employee id="7">Антонов Е. В.</Employee>
+    </Department>
+
+</Department>

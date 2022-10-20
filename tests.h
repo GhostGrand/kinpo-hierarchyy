@@ -10,7 +10,14 @@ public:
     explicit tests(QObject *parent = nullptr);
 
 private slots:
-    void test1();
+    void getInputID_test_success();
+    void getInputID_test_zero();
+    void getInputID_test_space();
+    void getInputID_test_word();
+
+    void getAllContentFromXml_success();
+    void getAllContentFromXml_zero();
+    void getAllContentFromXml_person();
 
 };
 
