@@ -129,7 +129,51 @@ void getAllContentFromXml(QFile& inputXml, department &rootDepartment)
 
 void getInputXmlDatasToStructs(QDomNode record_node, QDomNode root, QList<struct employee> &employeeList, QList<struct department> &departmentList)
 {
+    // Пока текущая нода != Null
+    while (record_node.isNull() == false)
+    {
+        if (record_node.toElement().tagName() == "Employee")
+        {
+            employee employeeInfo;
 
+            // получить ФИО
+            employeeInfo.fioEmployee = QString::fromStdString(record_node.firstChild().nodeValue().toStdString());
+
+            // получить ID сотрудника
+            employeeInfo.idEmployee = QString::fromStdString(record_node.attributes().namedItem("id").nodeValue().toStdString()).toInt();
+
+            // получить название отдела | чтобы определить принадлежность к отделу
+            employeeInfo.departmentAffiliation = QString::fromStdString(root.attributes().namedItem("name").nodeValue().toStdString());
+
+            // записать полученные ФИО, ID, название отдела в структуру employeeList
+            employeeList.append(employeeInfo);
+        }
+        else if(record_node.toElement().tagName() == "Department")
+        {
+            department departmentInfo;
+
+            // Получить ID главы подразделения
+            departmentInfo.idHead = QString::fromStdString(record_node.attributes().namedItem("head").nodeValue().toStdString()).toInt();
+
+            // Получить название подразделения
+            departmentInfo.departmentName = QString::fromStdString(record_node.attributes().namedItem("name").nodeValue().toStdString());
+
+            QList<employee> childEmployees;
+            QList<department> childDepartments;
+
+            // Рекурсивный вызов функции для следующей ноды
+            getInputXmlDatasToStructs(record_node.firstChild(), record_node, childEmployees, childDepartments);
+
+            // Записать разделение в подразделенное
+            departmentInfo.childDepartments = childDepartments;
+
+            departmentInfo.employeesOfDepartment = childEmployees;
+            departmentList.append(departmentInfo);
+        }
+
+        // Следующая итерация
+        record_node = record_node.nextSibling();
+    }
 }
 
 void getDepartmentsLower(int rootEmployeeId, department &rootDepartment, QList<struct department> &lowerDepartments)
