@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
 
     department rootDepartment;
 
-    // выполнение проверки входных данных
+    // Выполнение проверки входных данных
     try {
         testInputDatas(locationXml, inputXml, locationTxt, inputTxt);
 
@@ -52,6 +52,14 @@ int main(int argc, char *argv[])
     QList<QString> outputStrings;
     getOutputStrings(rootEmployeeId, rootDepartment, outputStrings);
 
+
+    // Записать получившийся список строк в выходной файл
+    writeOutputFile(locationOutput, outputStrings);
+
+    for (int i = 0; i < outputStrings.count(); i++)
+    {
+        qDebug() << outputStrings[i];
+    }
 }
 
 bool testInputDatas(QString& locationXml, QFile& inputXml, QString& locationTxt, QFile& inputTxt)
