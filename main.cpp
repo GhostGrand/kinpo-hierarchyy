@@ -10,8 +10,8 @@
 #include "tests.h"
 int main(int argc, char *argv[])
 {
-    QTest::qExec(new tests, argc, argv);
-    return 0;
+//    QTest::qExec(new tests, argc, argv);
+//    return 0;
 
     QCoreApplication a(argc, argv);
 
@@ -112,11 +112,6 @@ void outputError(int error)
         qDebug() << "invalid input data: .txt file is empty";
 }
 
-void getInputDatas()
-{
-
-}
-
 int getInputID(QFile& inputTxt)
 {
     // Входной ID
@@ -196,16 +191,16 @@ void getInputXmlDatasToStructs(QDomNode record_node, QDomNode root, QList<struct
         {
             employee employeeInfo;
 
-            // получить ФИО
+            // Получить ФИО
             employeeInfo.fioEmployee = QString::fromStdString(record_node.firstChild().nodeValue().toStdString());
 
-            // получить ID сотрудника
+            // Получить ID сотрудника
             employeeInfo.idEmployee = QString::fromStdString(record_node.attributes().namedItem("id").nodeValue().toStdString()).toInt();
 
-            // получить название отдела | чтобы определить принадлежность к отделу
+            // Получить название отдела, чтобы определить принадлежность к отделу
             employeeInfo.departmentAffiliation = QString::fromStdString(root.attributes().namedItem("name").nodeValue().toStdString());
 
-            // записать полученные ФИО, ID, название отдела в структуру employeeList
+            // Записать полученные ФИО, ID, название отдела в структуру employeeList
             employeeList.append(employeeInfo);
         }
         else if(record_node.toElement().tagName() == "Department")
@@ -236,10 +231,6 @@ void getInputXmlDatasToStructs(QDomNode record_node, QDomNode root, QList<struct
     }
 }
 
-void getDepartmentsLower(int rootEmployeeId, department &rootDepartment, QList<struct department> &lowerDepartments)
-{
-
-}
 
 void getOutputStrings(int rootEmployeeId, department &rootDepartment, QList<QString> &outputStrings)
 {

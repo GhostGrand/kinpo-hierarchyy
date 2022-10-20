@@ -48,11 +48,6 @@ bool testInputDatas(QString& locationXml, QFile& inputXml, QString& locationTxt,
 void outputError(int error);
 
 /*!
- *  Получение входных данных
- */
-void getInputDatas();
-
-/*!
  * Получение входного ID сотрудника
  *
  * @param[in] inputTxt входной .txt файл
@@ -80,15 +75,6 @@ void getInputXmlDatasToStructs(QDomNode record_node, QDomNode root, QList<struct
 bool getAllContentFromXml(QFile& inputXml, department &rootDepartment);
 
 /*!
- * Получение ФИО сотрудника по его ID
- *
- * @param[in] idEmployee    ID сотрудника
- * @param[in] employeeList  список сотрудников
- * @return                  ФИО сотрудника
- */
-QString getFIOEmployee(int idEmployee, QList<struct employee> &employeeList);
-
-/*!
  * Закрыть входные .xml и .txt файлы
  *
  * @brief closeInputDatas
@@ -96,15 +82,6 @@ QString getFIOEmployee(int idEmployee, QList<struct employee> &employeeList);
  * @param[in] inputTxt      входной .txt файл
  */
 void closeInputDatas(QFile& inputXml, QFile& inputTxt);
-
-/*!
- * Получить подчиненное подразделение
- *
- * @param[in] rootEmployeeId    ID сотрудника рассматриваемого подразделения
- * @param[in] rootDepartment    текущее рассматриваемое подразделение
- * @param[out] lowerDepartments список нижестоящик подразделений
- */
-void getDepartmentsLower(int rootEmployeeId, department &rootDepartment, QList<struct department> &lowerDepartments);
 
 /*!
  * Получить выходные строки
