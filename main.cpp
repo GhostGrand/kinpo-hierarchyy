@@ -93,12 +93,33 @@ void getInputDatas()
 
 int getInputID(QFile& inputTxt)
 {
+    // Входной ID
+    int inputID;
+    // Объект класса, который хранит получившиеся строки
+    QString idDatas;
+    if (!inputTxt.open(QIODevice::ReadOnly))    // Проверяем, возможно ли открыть .txt файл для чтения
+        return 0;
+    idDatas = inputTxt.readAll();   // Записать полученную строку в idDatas
+    qDebug() << idDatas;    // Вывести в консоль idDatas
 
+    // Проверить корректность входных данных
+    for (int i = 0; i < idDatas.length(); i++)
+    {
+        if (!idDatas[i].isDigit())  // Если символ не число
+        {
+            qDebug() << "incorrect ID";
+            return 0;   // Вернуть 0 и вывести ошибку
+        }
+    }
+
+    inputID = idDatas.toInt();
+    return inputID;
 }
 
 void closeInputDatas(QFile& inputXml, QFile& inputTxt)
 {
-
+    inputXml.close();
+    inputTxt.close();
 }
 
 void getAllContentFromXml(QFile& inputXml, department &rootDepartment)
