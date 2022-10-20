@@ -38,6 +38,16 @@ int main(int argc, char *argv[])
 
     qDebug() << "work, no input errors";
 
+    // Получить ID пользователя
+    int rootEmployeeId = getInputID(inputTxt);
+    if (rootEmployeeId == 0)  // Если ID отсутствует - завершить программу и вернуть ошибку
+    {
+        return 0;
+    }
+
+    // Запарсить .xml файл
+    getAllContentFromXml(inputXml, rootDepartment);
+
 }
 
 bool testInputDatas(QString& locationXml, QFile& inputXml, QString& locationTxt, QFile& inputTxt)
