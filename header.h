@@ -84,7 +84,7 @@ bool getAllContentFromXml(QFile& inputXml, department &rootDepartment);
 void closeInputDatas(QFile& inputXml, QFile& inputTxt);
 
 /*!
- * Получить выходные строки
+ * Получить результат и записать его в список строк
  *
  * @param[in] rootEmployeeId    ID сотрудника рассматриваемого подразделения
  * @param[in] rootDepartment    текущее рассматриваемое подразделение
@@ -93,7 +93,7 @@ void closeInputDatas(QFile& inputXml, QFile& inputTxt);
 void getOutputStrings(int rootEmployeeId, department &rootDepartment, QList<QString> &outputStrings);
 
 /*!
- * Получить даннные о внутренних подразделениях строками
+ * Получить данные о внутренних подразделениях строками
  *
  * @param[in] rootEmployeeId    текущий сотрудник
  * @param[in] rootDepartment    текущее рассматриваемое подразделение
@@ -102,7 +102,7 @@ void getOutputStrings(int rootEmployeeId, department &rootDepartment, QList<QStr
 void getDepartmentsStrings(int rootEmployeeId, department &rootDepartment, QList<QString> &outputStrings);
 
 /*!
- * Записать получвшиеся строки в выходной .txt файл
+ * Записать получившиеся строки в выходной .txt файл
  *
  * @param[in] filePath      расположение .txt файла
  * @param[in] outputStrings получившиеся строки

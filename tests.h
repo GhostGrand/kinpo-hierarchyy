@@ -22,7 +22,11 @@ private slots:
     void getAllContentFromXml_success();
     void getAllContentFromXml_zero();
     void getAllContentFromXml_person();
-//    void getInputXmlDatasToStructs_success();
+
+    void getInputXmlDatasToStructs_success();
+
+    void getOutputStrings_success();
+    void getDepartmentsStrings_success();
 };
 
 #endif // TESTS_H

@@ -145,8 +145,11 @@ void closeInputDatas(QFile& inputXml, QFile& inputTxt)
 
 bool getAllContentFromXml(QFile& inputXml, department &rootDepartment)
 {
-    if (!inputXml.open(QIODevice::ReadOnly))    // Проверяем, возможно ли открыть .xml файл для чтения
-        qDebug() << "Error: can't read .xml file";  // Вывести в консоль ошибку, что файл открыть невозможно
+    if (!inputXml.open(QIODevice::ReadOnly))
+        {                                           // Проверяем, возможно ли открыть .xml файл для чтения
+            qDebug() << "Error: can't read .xml file";
+            inputXml.close();
+        }           // Вывести в консоль ошибку, что файл открыть невозможно
 
     QByteArray buff = inputXml.readAll();
     QDomDocument doc;
@@ -154,15 +157,17 @@ bool getAllContentFromXml(QFile& inputXml, department &rootDepartment)
     // Проверить, что .xml файл не пустой
     if (doc.setContent(buff) == false)
     {
-        return 0;
+        inputXml.close();
         qDebug() << "bad XML-file: setContent";
+        return 0;
     }
     // Проверить, что на самом верхнем уровне находится подразделение
     QDomElement root = doc.documentElement();
     if (root.tagName() != "Department")
     {
-        return 0;
+        inputXml.close();
         qDebug() << "bad XML-file: tagname() != Department";
+        return 0;
     }
     // Первая вложенная нода
     QDomNode record_node = root.firstChild();
@@ -328,7 +333,7 @@ void writeOutputFile(QString filePath, QList<QString> &outputStrings)
     // Расположение файла
     QFile file(filePath);
 
-        // Если можно записывать данные в файл
+    // Если можно записать данные в файл
     if (file.open(QIODevice::WriteOnly))
     {
         // Записать строки в файл
@@ -345,6 +350,6 @@ void writeOutputFile(QString filePath, QList<QString> &outputStrings)
     // Вывести в консоль ошибку, что файл открыть невозможно
     else
     {
-        qDebug() << "bad XML-file: cannot open output file";
+        qDebug() << "bad XML-file: cannot write output file";
     }
 }
