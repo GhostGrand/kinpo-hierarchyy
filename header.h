@@ -115,7 +115,7 @@ void getDepartmentsLower(int rootEmployeeId, department &rootDepartment, QList<s
 void getOutputStrings(int rootEmployeeId, department &rootDepartment, QList<QString> &outputStrings);
 
 /*!
- * Получить даннные о подразделении строками
+ * Получить даннные о внутренних подразделениях строками
  *
  * @param[in] rootEmployeeId    текущий сотрудник
  * @param[in] rootDepartment    текущее рассматриваемое подразделение

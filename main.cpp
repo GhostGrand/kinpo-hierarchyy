@@ -222,20 +222,89 @@ void getDepartmentsLower(int rootEmployeeId, department &rootDepartment, QList<s
 
 void getOutputStrings(int rootEmployeeId, department &rootDepartment, QList<QString> &outputStrings)
 {
+    if (rootDepartment.idHead == rootEmployeeId)
+    {
+        // Определить главу подразделения
+        employee head;
+        for (int i = 0; i < rootDepartment.employeesOfDepartment.count(); i++)
+        {
+            if (rootDepartment.employeesOfDepartment[i].idEmployee == rootEmployeeId)
+            {
+                head = rootDepartment.employeesOfDepartment[i];
+                break;
+            }
+        }
 
+        // Записать строку главы подразделения
+        outputStrings.append("Руководитель " + rootDepartment.departmentName + ": " + head.fioEmployee);
+
+        // Записать в список строк подразделение и его сотрудников
+        outputStrings.append(rootDepartment.departmentName + ":");
+        for (int i = 0; i < rootDepartment.employeesOfDepartment.count(); i++)
+        {
+            if (rootDepartment.employeesOfDepartment[i].idEmployee != rootEmployeeId)
+            {
+                outputStrings.append("    " + rootDepartment.employeesOfDepartment[i].fioEmployee);
+            }
+        }
+
+        // Записать строки внутренних подразделений
+        for (int i = 0; i < rootDepartment.childDepartments.count(); i++)
+        {
+            getDepartmentsStrings(rootEmployeeId, rootDepartment.childDepartments[i], outputStrings);
+        }
+    }
+    else
+    {
+        // Записать строки для других подразделений того же уровня
+        for (int i = 0; i < rootDepartment.employeesOfDepartment.count(); i++)
+        {
+            // Записать строки сотрудников подразделения
+            if (rootDepartment.employeesOfDepartment[i].idEmployee == rootEmployeeId)
+            {
+                outputStrings.append(rootDepartment.departmentName + ":");
+                for (int i = 0; i < rootDepartment.employeesOfDepartment.count(); i++)
+                {
+                    if (rootDepartment.employeesOfDepartment[i].idEmployee != rootEmployeeId)
+                    {
+                        outputStrings.append("    " + rootDepartment.employeesOfDepartment[i].fioEmployee);
+                    }
+                }
+
+                // Записать строки внутренних подразделений
+                for (int i = 0; i < rootDepartment.childDepartments.count(); i++)
+                {
+                    getDepartmentsStrings(rootEmployeeId, rootDepartment.childDepartments[i], outputStrings);
+                }
+
+                return;
+            }
+            else
+            {
+                // Записать строки подразделений
+                for (int i = 0; i < rootDepartment.childDepartments.count(); i++)
+                {
+                    getOutputStrings(rootEmployeeId, rootDepartment.childDepartments[i], outputStrings);
+                }
+            }
+        }
+    }
 }
 
 void getDepartmentsStrings(int rootEmployeeId, department &rootDepartment, QList<QString> &outputStrings)
 {
+    // Записать строки подразделения
     outputStrings.append(rootDepartment.departmentName + ":");
     for (int i = 0; i < rootDepartment.employeesOfDepartment.count(); i++)
     {
+        // Записать строки сотрудников подразделения
         if (rootDepartment.employeesOfDepartment[i].idEmployee != rootEmployeeId)
         {
             outputStrings.append("    " + rootDepartment.employeesOfDepartment[i].fioEmployee);
         }
     }
 
+    // Записать строки внутренних подразделений
     for (int i = 0; i < rootDepartment.childDepartments.count(); i++)
     {
         getDepartmentsStrings(rootEmployeeId, rootDepartment.childDepartments[i], outputStrings);
